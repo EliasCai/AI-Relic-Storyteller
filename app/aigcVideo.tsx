@@ -30,11 +30,12 @@ import Text from '@/components/ui/Text';
 import Button from '@/components/ui/Button';
 import { colors, spacing } from '@/constants/theme';
 
-// 模拟视频数据
+// 视频数据
 const videoData = {
+  artifactId: '1', // 文物ID，用于关联到具体文物
   title: '青花瓷龙纹碗的前世今生',
   description: '我是明代永乐年间的青花瓷龙纹碗，出生于景德镇御窑厂...',
-  videoUrl: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4', // Expo示例视频
+  videoUrl: require('@/assets/videos/demo.mp4'), // 本地视频文件
 };
 
 export default function AIGCVideoScreen() {
@@ -157,7 +158,10 @@ export default function AIGCVideoScreen() {
   
   const handleChatPress = () => {
     console.log('与文物对话');
-    // 在实际应用中，这里会跳转到与文物的第一人称聊天界面
+    router.push({
+      pathname: '/chat',
+      params: { artifactId: videoData.artifactId || '1' }
+    });
   };
   
   const handleSharePress = () => {
@@ -167,7 +171,14 @@ export default function AIGCVideoScreen() {
   
   const handleCreatePress = () => {
     console.log('以此为灵感创作');
-    router.push('/create');
+    router.push({
+      pathname: '/create',
+      params: { 
+        artifactId: videoData.artifactId || '1',
+        templateType: 'vlog',
+        sourceVideo: videoData.videoUrl
+      }
+    });
   };
   
   if (isGenerating) {
@@ -230,7 +241,7 @@ export default function AIGCVideoScreen() {
         <Video
           ref={videoRef}
           style={styles.video}
-          source={{ uri: videoData.videoUrl }}
+          source={videoData.videoUrl}
           resizeMode={ResizeMode.CONTAIN}
           isLooping={false}
           onPlaybackStatusUpdate={handlePlaybackStatusUpdate}

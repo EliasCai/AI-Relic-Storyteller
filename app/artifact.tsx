@@ -88,7 +88,10 @@ export default function ArtifactScreen() {
               containerStyle={styles.primaryButton}
               onPress={() => {
                 console.log('查看AI科普视频');
-                router.push('/aigcVideo');
+                router.push({
+                  pathname: '/aigcVideo',
+                  params: { artifactId: artifactData.id }
+                });
               }}
             />
             
@@ -100,7 +103,10 @@ export default function ArtifactScreen() {
                 containerStyle={[styles.secondaryButton, { marginRight: spacing.sm }]}
                 onPress={() => {
                   console.log('与文物对话');
-                  // 在实际应用中，这里会跳转到与文物的第一人称聊天界面
+                  router.push({
+                    pathname: '/chat',
+                    params: { artifactId: artifactData.id }
+                  });
                 }}
               />
               <Button
@@ -120,7 +126,7 @@ export default function ArtifactScreen() {
                 containerStyle={styles.additionalButton}
                 onPress={() => {
                   console.log('开始创作');
-                  // 在实际应用中，这里会跳转到创作流程
+                  router.push('/create');
                 }}
               />
               <Button

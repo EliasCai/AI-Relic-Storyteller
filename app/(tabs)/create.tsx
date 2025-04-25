@@ -8,22 +8,59 @@ import {
   SafeAreaView 
 } from 'react-native';
 import { Film, ImagePlus, Video, Wand as Wand2 } from 'lucide-react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import CreationOption from '@/components/create/CreationOption';
 import Text from '@/components/ui/Text';
 import { colors, spacing } from '@/constants/theme';
 
 export default function CreateScreen() {
-  return (
+  const params = useLocalSearchParams();
+  const router = useRouter();
+  
+  // 处理发布事件
+  const handlePublish = () => {
+    console.log('Published');
+  };
+  
+  // 根据路由参数决定显示哪个创作类型
+  function renderEditor() {
+    const { templateType } = useLocalSearchParams();
+    
+    if (templateType === 'vlog') {
+      return (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.header}>
+            <Text variant="h3" weight="bold">
+              文物Vlog编辑器
+            </Text>
+          </View>
+          
+          <ScrollView style={styles.scrollView}>
+            <View style={styles.templateSection}>
+              <Text variant="h4" style={styles.sectionTitle}>
+                选择模板
+              </Text>
+              {/* 模板选择组件 */}
+            </View>
+            
+            <View style={styles.editorSection}>
+              {/* 视频编辑组件 */}
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      );
+    }
+    
+    // 默认显示创作类型选择界面
+    return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-      
-      <View style={styles.header}>
-        <Text variant="h3" weight="bold">
-          创作
-        </Text>
-      </View>
-      
+      <>
+        <View style={styles.header}>
+          <Text variant="h3" weight="bold">
+            创作
+          </Text>
+        </View>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.content}
@@ -32,15 +69,16 @@ export default function CreateScreen() {
         <Text variant="body1" style={styles.description}>
           选择创作类型，使用AI辅助快速生成精彩内容
         </Text>
-        
         <CreationOption
           title="文物Vlog"
           description="将静态文物转变为生动视频，讲述其背后的故事"
           icon={<Film size={24} color={colors.white} />}
           gradientColors={[colors.primary[400], colors.primary[600]]}
-          onPress={() => console.log('Create Vlog')}
+          onPress={() => router.push({
+            pathname: '/create',
+            params: { templateType: 'vlog' }
+          })}
         />
-        
         <CreationOption
           title="历史短剧"
           description="将文物置于历史场景中，重现其使用场景"
@@ -48,7 +86,6 @@ export default function CreateScreen() {
           gradientColors={[colors.secondary[400], colors.secondary[600]]}
           onPress={() => console.log('Create Drama')}
         />
-        
         <CreationOption
           title="文创设计"
           description="基于文物元素创作现代设计作品"
@@ -56,7 +93,6 @@ export default function CreateScreen() {
           gradientColors={[colors.accent[400], colors.accent[600]]}
           onPress={() => console.log('Create Design')}
         />
-        
         <CreationOption
           title="图文故事"
           description="用精美图文讲述文物背后的文化与历史"
@@ -64,7 +100,6 @@ export default function CreateScreen() {
           gradientColors={[colors.teal[400], colors.teal[600]]}
           onPress={() => console.log('Create Story')}
         />
-        
         <View style={styles.recentHeader}>
           <Text variant="h4" weight="bold">
             我的草稿
@@ -75,7 +110,6 @@ export default function CreateScreen() {
             </Text>
           </TouchableOpacity>
         </View>
-        
         <View style={styles.emptyDrafts}>
           <Text 
             variant="body1" 
@@ -94,6 +128,7 @@ export default function CreateScreen() {
           </Text>
         </View>
       </ScrollView>
+      </>
     </SafeAreaView>
   );
 }
@@ -137,3 +172,5 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
 });
+  return renderEditor();
+}
