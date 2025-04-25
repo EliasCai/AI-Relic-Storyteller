@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   StatusBar,
   SafeAreaView,
-  Alert
+  Alert,
+  Platform
 } from 'react-native';
 import { Film, ImagePlus, Video, Wand as Wand2, ArrowLeft } from 'lucide-react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
