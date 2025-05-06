@@ -6,7 +6,8 @@ import {
   ScrollView, 
   TouchableOpacity,
   Platform,
-  Dimensions 
+  Dimensions,
+  StatusBar
 } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { 
@@ -50,7 +51,9 @@ export default function ArtifactScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      <ScrollView style={styles.scrollView} bounces={false}>
+        {/* 文物高清图片区域 */}
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: artifactData.image }}
@@ -58,7 +61,7 @@ export default function ArtifactScreen() {
             resizeMode="cover"
           />
           <LinearGradient
-            colors={['rgba(0,0,0,0.5)', 'transparent']}
+            colors={['rgba(0,0,0,0.7)', 'transparent']}
             style={styles.imageGradient}
           >
             <TouchableOpacity
@@ -68,115 +71,98 @@ export default function ArtifactScreen() {
               <ArrowLeft color={colors.white} size={24} />
             </TouchableOpacity>
           </LinearGradient>
-        </View>
-
-        <View style={styles.content}>
-          <View style={styles.header}>
-            <Text variant="h2" weight="bold" style={styles.title}>
+          
+          {/* 文物名称浮动在图片上 */}
+          <LinearGradient
+            colors={['transparent', 'rgba(0,0,0,0.8)']}
+            style={styles.bottomGradient}
+          >
+            <Text variant="h1" weight="bold" style={styles.heroTitle} color={colors.white}>
               {artifactData.name}
             </Text>
-            <Text variant="body1" color={colors.gray[600]} style={styles.period}>
+            <Text variant="h4" color={colors.white} style={styles.heroPeriod}>
               {artifactData.dynasty} · {artifactData.period}
             </Text>
+          </LinearGradient>
+        </View>
+        
+        <View style={styles.content}>
+          {/* 核心信息卡片 */}
+          <View style={styles.coreInfoCard}>
+            <View style={styles.coreInfoRow}>
+              <View style={styles.coreInfoItem}>
+                <Text variant="caption" color={colors.gray[500]}>材质</Text>
+                <Text variant="body2" weight="medium">{artifactData.details.material}</Text>
+              </View>
+              <View style={styles.divider} />
+              <View style={styles.coreInfoItem}>
+                <Text variant="caption" color={colors.gray[500]}>出土地点</Text>
+                <Text variant="body2" weight="medium">{artifactData.details.location}</Text>
+              </View>
+              <View style={styles.divider} />
+              <View style={styles.coreInfoItem}>
+                <Text variant="caption" color={colors.gray[500]}>收藏单位</Text>
+                <Text variant="body2" weight="medium">{artifactData.details.collection}</Text>
+              </View>
+            </View>
           </View>
-
-          <View style={styles.actionButtons}>
-            <Button
-              title="看TA讲故事"
-              size="lg"
-              icon={<Video size={20} color={colors.white} />}
-              containerStyle={styles.primaryButton}
+          
+          {/* 醒目的行动召唤按钮区域 */}
+          <View style={styles.actionButtonsContainer}>
+            <Text variant="h3" weight="bold" style={styles.actionTitle}>
+              探索{artifactData.name}的故事
+            </Text>
+            
+            {/* 主要行动按钮 - 生成文物故事视频 */}
+            <TouchableOpacity 
+              style={styles.primaryActionButton}
               onPress={() => {
-                console.log('查看AI科普视频');
+                console.log('生成文物故事视频');
                 router.push({
-                  pathname: '/aigcVideo',
+                  pathname: '/videoCreation',
                   params: { artifactId: artifactData.id }
                 });
               }}
-            />
-            
-            <View style={styles.secondaryButtons}>
-              <Button
-                title="与TA对话"
-                variant="outline"
-                icon={<MessageSquare size={20} color={colors.primary[500]} />}
-                containerStyle={[styles.secondaryButton, { marginRight: spacing.sm }]}
-                onPress={() => {
-                  console.log('与文物对话');
-                  router.push({
-                    pathname: '/chat',
-                    params: { artifactId: artifactData.id }
-                  });
-                }}
-              />
-              <Button
-                title="基础信息卡"
-                variant="outline"
-                icon={<Info size={20} color={colors.primary[500]} />}
-                containerStyle={styles.secondaryButton}
-                onPress={() => setShowDetails(!showDetails)}
-              />
-            </View>
-            
-            <View style={styles.additionalButtons}>
-              <Button
-                title="创作我的作品"
-                variant="ghost"
-                icon={<Share2 size={20} color={colors.gray[600]} />}
-                containerStyle={styles.additionalButton}
-                onPress={() => {
-                  console.log('开始创作');
-                  router.push('/create');
-                }}
-              />
-              <Button
-                title="加入收藏"
-                variant="ghost"
-                icon={<Heart size={20} color={isLiked ? colors.red[500] : colors.gray[600]} />}
-                containerStyle={styles.additionalButton}
-                onPress={() => setIsLiked(!isLiked)}
-              />
-            </View>
-          </View>
-
-          <View style={styles.quickActions}>
-            <TouchableOpacity
-              style={styles.quickAction}
-              onPress={() => setIsLiked(!isLiked)}
             >
-              <Heart
-                size={24}
-                color={isLiked ? colors.secondary[500] : colors.gray[500]}
-                fill={isLiked ? colors.secondary[500] : 'none'}
-              />
-              <Text
-                variant="caption"
-                color={isLiked ? colors.secondary[500] : colors.gray[500]}
-                style={styles.quickActionText}
+              <LinearGradient
+                colors={[colors.primary[400], colors.primary[600]]}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                style={styles.primaryActionGradient}
               >
-                收藏
-              </Text>
+                <Video size={24} color={colors.white} />
+                <Text variant="h4" weight="bold" color={colors.white} style={{marginLeft: spacing.md}}>
+                  生成文物故事视频
+                </Text>
+              </LinearGradient>
             </TouchableOpacity>
-
-            <TouchableOpacity style={styles.quickAction}>
-              <Share2 size={24} color={colors.gray[500]} />
-              <Text
-                variant="caption"
-                color={colors.gray[500]}
-                style={styles.quickActionText}
-              >
-                分享
+            
+            {/* 次要行动按钮 - 与文物对话 */}
+            <TouchableOpacity 
+              style={styles.secondaryActionButton}
+              onPress={() => {
+                console.log('与文物对话');
+                router.push({
+                  pathname: '/chat',
+                  params: { artifactId: artifactData.id }
+                });
+              }}
+            >
+              <MessageSquare size={24} color={colors.primary[500]} />
+              <Text variant="h4" weight="bold" color={colors.primary[500]} style={{marginLeft: spacing.md}}>
+                与{artifactData.name.length > 4 ? artifactData.name.substring(0, 4) : artifactData.name}聊聊
               </Text>
             </TouchableOpacity>
           </View>
-
+          
+          {/* 详细图文资料入口 */}
           <TouchableOpacity
             style={styles.detailsCard}
             onPress={() => setShowDetails(!showDetails)}
           >
             <View style={styles.detailsHeader}>
               <Text variant="h4" weight="bold">
-                文物信息
+                详细图文资料
               </Text>
               {showDetails ? (
                 <ChevronUp size={20} color={colors.gray[500]} />
@@ -189,30 +175,9 @@ export default function ArtifactScreen() {
               <View style={styles.detailsContent}>
                 <View style={styles.detailRow}>
                   <Text variant="body2" color={colors.gray[500]}>
-                    材质
-                  </Text>
-                  <Text variant="body2">{artifactData.details.material}</Text>
-                </View>
-                
-                <View style={styles.detailRow}>
-                  <Text variant="body2" color={colors.gray[500]}>
                     尺寸
                   </Text>
                   <Text variant="body2">{artifactData.details.size}</Text>
-                </View>
-                
-                <View style={styles.detailRow}>
-                  <Text variant="body2" color={colors.gray[500]}>
-                    出土地点
-                  </Text>
-                  <Text variant="body2">{artifactData.details.location}</Text>
-                </View>
-                
-                <View style={styles.detailRow}>
-                  <Text variant="body2" color={colors.gray[500]}>
-                    收藏单位
-                  </Text>
-                  <Text variant="body2">{artifactData.details.collection}</Text>
                 </View>
                 
                 <View style={styles.detailRow}>
@@ -253,6 +218,38 @@ export default function ArtifactScreen() {
               </View>
             )}
           </TouchableOpacity>
+          
+          {/* 快捷操作区域 */}
+          <View style={styles.quickActions}>
+            <TouchableOpacity
+              style={styles.quickAction}
+              onPress={() => setIsLiked(!isLiked)}
+            >
+              <Heart
+                size={24}
+                color={isLiked ? colors.secondary[500] : colors.gray[500]}
+                fill={isLiked ? colors.secondary[500] : 'none'}
+              />
+              <Text
+                variant="caption"
+                color={isLiked ? colors.secondary[500] : colors.gray[500]}
+                style={styles.quickActionText}
+              >
+                收藏
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.quickAction}>
+              <Share2 size={24} color={colors.gray[500]} />
+              <Text
+                variant="caption"
+                color={colors.gray[500]}
+                style={styles.quickActionText}
+              >
+                分享
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -269,7 +266,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: width,
-    height: width * 0.8,
+    height: width * 1.1, // 更大的图片区域
     position: 'relative',
   },
   image: {
@@ -285,6 +282,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  bottomGradient: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 150,
+    justifyContent: 'flex-end',
+    padding: spacing.lg,
+  },
   backButton: {
     width: 40,
     height: 40,
@@ -295,46 +301,83 @@ const styles = StyleSheet.create({
     margin: spacing.md,
     marginTop: Platform.OS === 'ios' ? 48 : spacing.md,
   },
+  heroTitle: {
+    fontSize: 32,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
+  },
+  heroPeriod: {
+    marginTop: spacing.xs,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
   content: {
     padding: spacing.lg,
   },
-  header: {
-    marginBottom: spacing.md,
+  coreInfoCard: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: spacing.md,
+    marginTop: -40, // 负边距，让卡片与图片重叠
+    marginHorizontal: spacing.sm,
+    ...shadows.md,
   },
-  title: {
-    marginBottom: spacing.xs,
-  },
-  period: {
-    marginBottom: spacing.md,
-  },
-  actionButtons: {
-    marginBottom: spacing.xl,
-  },
-  primaryButton: {
-    marginBottom: spacing.md,
-  },
-  secondaryButtons: {
+  coreInfoRow: {
     flexDirection: 'row',
-    marginBottom: spacing.md,
-  },
-  secondaryButton: {
-    flex: 1,
-  },
-  quickActions: {
-    flexDirection: 'row',
-    marginBottom: spacing.xl,
-  },
-  quickAction: {
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginRight: spacing.xl,
   },
-  quickActionText: {
-    marginTop: spacing.xs,
+  coreInfoItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  divider: {
+    width: 1,
+    height: 30,
+    backgroundColor: colors.gray[200],
+  },
+  actionButtonsContainer: {
+    marginTop: spacing.xl,
+    marginBottom: spacing.lg,
+  },
+  actionTitle: {
+    marginBottom: spacing.md,
+    textAlign: 'center',
+  },
+  primaryActionButton: {
+    marginBottom: spacing.md,
+    borderRadius: 12,
+    overflow: 'hidden',
+    elevation: 4,
+    shadowColor: colors.primary[500],
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  primaryActionGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.lg,
+    paddingHorizontal: spacing.lg,
+  },
+  secondaryActionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.md,
+    borderWidth: 2,
+    borderColor: colors.primary[500],
+    borderRadius: 12,
+    backgroundColor: colors.white,
   },
   detailsCard: {
     backgroundColor: colors.gray[50],
     borderRadius: 12,
     padding: spacing.md,
+    marginBottom: spacing.lg,
     ...shadows.sm,
   },
   detailsHeader: {
@@ -351,5 +394,17 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     borderBottomWidth: 1,
     borderBottomColor: colors.gray[200],
+  },
+  quickActions: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: spacing.xl,
+  },
+  quickAction: {
+    alignItems: 'center',
+    marginHorizontal: spacing.xl,
+  },
+  quickActionText: {
+    marginTop: spacing.xs,
   },
 });

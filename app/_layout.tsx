@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
@@ -50,6 +50,10 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="scanner" options={{ headerShown: false }} />
         <Stack.Screen name="artifact" options={{ headerShown: false }} />
+        <Stack.Screen name="storyboard" options={{ headerShown: false }} />
+        <Stack.Screen name="audioSelection" options={{ headerShown: false }} />
+        <Stack.Screen name="finalGeneration" options={{ headerShown: false }} />
+        <Stack.Screen name="aigcVideo" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </>
