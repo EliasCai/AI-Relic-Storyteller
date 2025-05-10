@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Camera } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,6 +15,8 @@ interface ScanCardProps {
 
 export default function ScanCard({ onScanPress }: ScanCardProps) {
   const insets = useSafeAreaInsets();
+  const screenWidth = Dimensions.get('window').width;
+  const isSmallScreen = screenWidth < 375; // 针对小屏幕设备的判断
   
   return (
     <Card style={styles.card} shadowLevel="lg" roundedLevel="lg">
@@ -32,7 +34,11 @@ export default function ScanCard({ onScanPress }: ScanCardProps) {
       
       <View style={styles.contentContainer}>
         <View style={styles.textContainer}>
-          <Text variant="h3" weight="bold" color={colors.white}>
+          <Text 
+            variant={isSmallScreen ? "h4" : "h3"} 
+            weight="bold" 
+            color={colors.white}
+          >
             探索文物背后的故事
           </Text>
           <Text 
@@ -44,10 +50,19 @@ export default function ScanCard({ onScanPress }: ScanCardProps) {
           </Text>
         </View>
         
-        <TouchableOpacity style={styles.cameraButton} onPress={onScanPress}>
-          <View style={styles.cameraIconContainer}>
+        <TouchableOpacity 
+          style={[
+            styles.cameraButton,
+            isSmallScreen && styles.cameraButtonSmall
+          ]} 
+          onPress={onScanPress}
+        >
+          <View style={[
+            styles.cameraIconContainer,
+            isSmallScreen && styles.cameraIconContainerSmall
+          ]}>
             <Camera 
-              size={28} 
+              size={isSmallScreen ? 22 : 28} 
               color={colors.secondary[600]} 
               strokeWidth={2.5} 
             />
@@ -58,13 +73,13 @@ export default function ScanCard({ onScanPress }: ScanCardProps) {
       <View style={styles.buttonWrapper}>
         <Button 
           title="开始扫描" 
-          size="lg"
+          size={isSmallScreen ? "md" : "lg"}
           fullWidth
           variant="outline"
           onPress={onScanPress}
           containerStyle={styles.scanButton}
           textStyle={{ color: colors.white }}
-          icon={<Camera size={18} color={colors.white} />}
+          icon={<Camera size={isSmallScreen ? 16 : 18} color={colors.white} />}
           activeOpacity={0.7}
         />
       </View>
@@ -111,6 +126,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  cameraButtonSmall: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+  },
   cameraIconContainer: {
     width: 52,
     height: 52,
@@ -118,6 +138,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  cameraIconContainerSmall: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
   },
   scanButton: {
     marginHorizontal: spacing.md,

@@ -2,8 +2,6 @@ import { Tabs } from 'expo-router';
 import { Platform, StyleSheet } from 'react-native';
 import { Scan, Users, Video, User } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlurView } from 'expo-blur';
-
 import { colors } from '@/constants/theme';
 
 export default function TabLayout() {
@@ -23,15 +21,9 @@ export default function TabLayout() {
           {
             height: tabBarHeight,
             paddingBottom: Platform.OS === 'ios' ? insets.bottom : 10,
+            backgroundColor: colors.white,
           }
         ],
-        tabBarBackground: () => (
-          <BlurView 
-            intensity={80} 
-            style={StyleSheet.absoluteFill} 
-            tint="light"
-          />
-        ),
       }}
     >
       <Tabs.Screen
@@ -78,8 +70,11 @@ const styles = StyleSheet.create({
   tabBar: {
     position: 'absolute',
     borderTopWidth: 0,
-    elevation: 0,
-    shadowOpacity: 0,
+    elevation: 4,
+    shadowOpacity: 0.1,
+    shadowColor: colors.gray[900],
+    shadowOffset: { width: 0, height: -1 },
+    shadowRadius: 2,
   },
   tabBarLabel: {
     fontFamily: 'NotoSansSC-Regular',
