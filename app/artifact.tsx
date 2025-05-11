@@ -34,7 +34,7 @@ const artifactData = {
   name: '青花瓷龙纹碗',
   dynasty: '明朝',
   period: '永乐年间 (1403-1424)',
-  image: 'https://images.pexels.com/photos/14918486/pexels-photo-14918486.jpeg',
+  image: require('@/assets/images/demo01.jpg'),
   details: {
     material: '瓷器',
     size: '高12.5厘米，口径18厘米',
@@ -56,7 +56,7 @@ export default function ArtifactScreen() {
         {/* 文物高清图片区域 */}
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: artifactData.image }}
+            source={artifactData.image}
             style={styles.image}
             resizeMode="cover"
           />

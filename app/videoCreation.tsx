@@ -17,13 +17,21 @@ import Text from '@/components/ui/Text';
 import Button from '@/components/ui/Button';
 import { colors, spacing, shadows } from '@/constants/theme';
 
+// 定义主题选项的接口
+interface TopicOption {
+  id: string;
+  title: string;
+  description: string;
+  image: any; // 修改为接受任何类型，以支持require导入的图片
+}
+
 // 示例数据 - 在实际应用中会由API提供
 const artifactData = {
   id: '1',
   name: '青花瓷龙纹碗',
   dynasty: '明朝',
   period: '永乐年间 (1403-1424)',
-  image: 'https://images.pexels.com/photos/14918486/pexels-photo-14918486.jpeg',
+  image: require('@/assets/images/demo01.jpg'),
 };
 
 // 示例选题数据 - 在实际应用中会由API生成
@@ -32,32 +40,32 @@ const topicOptions = [
     id: '1',
     title: '青花瓷龙纹碗的诞生之旅',
     description: '跟随匠人的双手，见证一件官窑瓷器从泥土到皇家宝器的蜕变过程',
-    image: 'https://images.pexels.com/photos/7861524/pexels-photo-7861524.jpeg',
+    image: require('@/assets/images/demo02.png'),
   },
   {
     id: '2',
     title: '龙纹碗见证的明朝秘事',
     description: '一件皇家餐具，几段朝堂秘辛，透过纹饰了解明朝宫廷文化与权力交替',
-    image: 'https://images.pexels.com/photos/4552350/pexels-photo-4552350.jpeg',
+    image: require('@/assets/images/demo03.png'),
   },
   {
     id: '3',
     title: '从青花瓷看东西方贸易交流',
     description: '它曾是海上丝绸之路的珍宝，见证了东西方文化的激烈碰撞与交融',
-    image: 'https://images.pexels.com/photos/6130985/pexels-photo-6130985.jpeg',
+    image: require('@/assets/images/demo04.jpeg'),
   },
   {
     id: '4',
     title: '穿越时空的对话：古瓷器与现代科技',
     description: '通过现代科技手段探索古代制瓷工艺的奥秘，跨越600年的科技对话',
-    image: 'https://images.pexels.com/photos/12956807/pexels-photo-12956807.jpeg',
+    image: require('@/assets/images/demo05.jpg'),
   },
 ];
 
 export default function VideoCreationScreen() {
   const params = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState<TopicOption | null>(null);
   
   // 模拟加载数据
   useEffect(() => {
@@ -68,7 +76,7 @@ export default function VideoCreationScreen() {
     return () => clearTimeout(timer);
   }, []);
   
-  const handleTopicSelect = (topic) => {
+  const handleTopicSelect = (topic: TopicOption) => {
     setSelectedTopic(topic);
     // 进入到下一步 - 剧本预览
     router.push({
@@ -112,7 +120,7 @@ export default function VideoCreationScreen() {
         <View style={styles.header}>
           <View style={styles.artifactInfoContainer}>
             <Image 
-              source={{ uri: artifactData.image }} 
+              source={artifactData.image}
               style={styles.artifactImage}
             />
             <View style={styles.artifactInfo}>
@@ -139,7 +147,7 @@ export default function VideoCreationScreen() {
               onPress={() => handleTopicSelect(topic)}
             >
               <Image 
-                source={{ uri: topic.image }} 
+                source={topic.image} 
                 style={styles.topicImage}
               />
               <LinearGradient

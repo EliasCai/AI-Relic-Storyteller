@@ -26,7 +26,7 @@ const THUMBNAIL_ASPECT_RATIO = 4 / 3; // 宽高比例
 // 定义分镜类型
 interface Storyboard {
   id: string;
-  image: string;
+  image: any; // 修改为any类型以支持本地图片
   script: string;
 }
 
@@ -34,32 +34,32 @@ interface Storyboard {
 const sampleStoryboards: Storyboard[] = [
   {
     id: '1',
-    image: 'https://images.pexels.com/photos/7233357/pexels-photo-7233357.jpeg',
+    image: require('@/assets/images/frame07.jpeg'),
     script: '高岭土经过淘洗后，被工匠小心翼翼地带回工坊，准备制作瓷器胚体。',
   },
   {
     id: '2',
-    image: 'https://images.pexels.com/photos/7005446/pexels-photo-7005446.jpeg',
+    image: require('@/assets/images/frame02.jpeg'),
     script: '工匠在转盘上用熟练的双手塑造着我的形态，每一个弧度都经过精确计算。',
   },
   {
     id: '3',
-    image: 'https://images.pexels.com/photos/6157047/pexels-photo-6157047.jpeg',
+    image: require('@/assets/images/frame03.jpeg'),
     script: '画师手持细笔，专注地在我的表面上描绘精美的龙纹图案。',
   },
   {
     id: '4',
-    image: 'https://images.pexels.com/photos/5876369/pexels-photo-5876369.jpeg',
-    script: '我被小心放入窑炉中，经历1300度高温的淬炼，钴蓝色在高温中渗入釉层。',
+    image: require('@/assets/images/frame04.jpeg'),
+    script: '皇帝将我高高举起，置于头顶上方，对着光线细细端详，仿佛要洞察我每一处细微之美。',
   },
   {
     id: '5',
-    image: 'https://images.pexels.com/photos/5430213/pexels-photo-5430213.jpeg',
-    script: '出窑后，监工检查每件瓷器，我因制作精良而被选中送往皇宫。',
+    image: require('@/assets/images/frame05.jpeg'),
+    script: '我正被考古学家小心翼翼地进行精细的挖掘和清理工作，考古学家的动作轻柔而精准。',
   },
   {
     id: '6',
-    image: 'https://images.pexels.com/photos/4555464/pexels-photo-4555464.jpeg',
+    image: require('@/assets/images/frame06.jpeg'),
     script: '数百年后，我在博物馆被人们欣赏，向世人展示明代官窑的辉煌工艺。',
   },
 ];
@@ -177,7 +177,7 @@ export default function StoryboardScreen() {
         ) : (
           <>
             <Image 
-              source={{ uri: selectedStoryboard?.image }} 
+              source={selectedStoryboard?.image} 
               style={styles.mainImage}
               resizeMode="contain"
             />
@@ -230,7 +230,7 @@ export default function StoryboardScreen() {
               onPress={() => handleThumbnailPress(item, index)}
             >
               <Image 
-                source={{ uri: item.image }} 
+                source={item.image} 
                 style={styles.thumbnailImage}
               />
               <Text 

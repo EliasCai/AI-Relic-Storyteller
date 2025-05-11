@@ -22,7 +22,7 @@ const featured = [
     id: '1',
     title: '秦始皇兵马俑：沉睡千年的军团',
     author: '历史探索者',
-    imageUrl: 'https://images.pexels.com/photos/1850013/pexels-photo-1850013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    imageUrl: 'https://images.pexels.com/photos/16472058/pexels-photo-16472058.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     likes: 1256,
   },
   {

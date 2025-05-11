@@ -22,81 +22,96 @@ const { width } = Dimensions.get('window');
 const STYLE_CARD_WIDTH = width * 0.8;
 const STYLE_CARD_SPACING = 16;
 
+// 定义风格和角色的接口
+interface StyleOption {
+  id: string;
+  name: string;
+  description: string;
+  image: any;
+}
+
+interface CharacterOption {
+  id: string;
+  name: string;
+  description: string;
+  image: any;
+}
+
 // 示例风格数据
-const styleOptions = [
+const styleOptions: StyleOption[] = [
   {
     id: '1',
     name: '奇幻风格',
     description: '神秘而充满魔幻色彩的视觉效果，适合展现文物的神秘面',
-    image: 'https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg',
+    image: require('@/assets/images/style01.jpeg'),
   },
   {
     id: '2',
     name: '历史写实',
     description: '注重历史细节的写实风格，带您穿越到文物诞生的年代',
-    image: 'https://images.pexels.com/photos/5022847/pexels-photo-5022847.jpeg',
+    image: require('@/assets/images/style02.png'),
   },
   {
     id: '3',
     name: '中国水墨',
     description: '传统水墨画风格，体现东方美学与传统文化韵味',
-    image: 'https://images.pexels.com/photos/6423416/pexels-photo-6423416.jpeg',
+    image: require('@/assets/images/style08.png'),
   },
   {
     id: '4',
     name: '现代科技',
     description: '融合现代科技元素的未来感风格，展现传统与现代的碰撞',
-    image: 'https://images.pexels.com/photos/2387793/pexels-photo-2387793.jpeg',
+    image: require('@/assets/images/style04.jpg'),
   },
   {
     id: '5',
     name: '卡通动漫',
     description: '活泼可爱的卡通风格，让历史文物更具亲和力和趣味性',
-    image: 'https://images.pexels.com/photos/5011647/pexels-photo-5011647.jpeg',
+    image: require('@/assets/images/style05.png'),
   },
 ];
 
 // 示例角色数据
-const characterOptions = [
+const characterOptions: CharacterOption[] = [
   {
     id: '1',
     name: '陶工匠人',
     description: '精通制瓷技艺的宫廷御用匠人',
-    image: 'https://images.pexels.com/photos/7005593/pexels-photo-7005593.jpeg',
+    image: require('@/assets/images/style06.png'),
   },
   {
     id: '2',
     name: '宫廷画师',
     description: '负责在瓷器上绘制精美图案的宫廷画师',
-    image: 'https://images.pexels.com/photos/6152103/pexels-photo-6152103.jpeg',
+    image: require('@/assets/images/style07.png'),
   },
   {
     id: '3',
     name: '明朝皇帝',
     description: '使用这件瓷器的明代帝王',
-    image: 'https://images.pexels.com/photos/5428824/pexels-photo-5428824.jpeg',
+    image: require('@/assets/images/style09.png'),
   },
   {
     id: '4',
     name: '现代考古学家',
     description: '研究这件文物历史与工艺的现代专家',
-    image: 'https://images.pexels.com/photos/6280651/pexels-photo-6280651.jpeg',
+    image: require('@/assets/images/style10.png'),
   },
   {
     id: '5',
     name: '瓷器本身',
     description: '以文物自身为第一人称视角讲述故事',
-    image: 'https://images.pexels.com/photos/12718980/pexels-photo-12718980.jpeg',
+    image: require('@/assets/images/demo01.jpg'),
   },
 ];
 
 export default function StyleAndCharacterScreen() {
   const params = useLocalSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedStyle, setSelectedStyle] = useState(null);
-  const [selectedCharacters, setSelectedCharacters] = useState([]);
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
-  const flatListRef = useRef(null);
+  const flatListRef = useRef<FlatList | null>(null);
   
   // 模拟加载数据
   useEffect(() => {
@@ -111,12 +126,12 @@ export default function StyleAndCharacterScreen() {
     return () => clearTimeout(timer);
   }, []);
   
-  const handleStyleSelect = (styleId, index) => {
+  const handleStyleSelect = (styleId: string, index: number) => {
     setSelectedStyle(styleId);
     setCurrentStyleIndex(index);
   };
   
-  const handleCharacterToggle = (characterId) => {
+  const handleCharacterToggle = (characterId: string) => {
     setSelectedCharacters((prev) => {
       if (prev.includes(characterId)) {
         return prev.filter(id => id !== characterId);
@@ -144,7 +159,7 @@ export default function StyleAndCharacterScreen() {
     });
   };
   
-  const renderStyleItem = ({ item, index }) => (
+  const renderStyleItem = ({ item, index }: { item: StyleOption; index: number }) => (
     <TouchableOpacity
       style={[
         styles.styleCard,
@@ -153,7 +168,7 @@ export default function StyleAndCharacterScreen() {
       onPress={() => handleStyleSelect(item.id, index)}
     >
       <Image 
-        source={{ uri: item.image }} 
+        source={item.image} 
         style={styles.styleImage}
       />
       <View style={styles.styleInfo}>
@@ -270,7 +285,7 @@ export default function StyleAndCharacterScreen() {
               onPress={() => handleCharacterToggle(character.id)}
             >
               <Image 
-                source={{ uri: character.image }} 
+                source={character.image} 
                 style={styles.characterImage}
               />
               
