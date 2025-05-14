@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文物活起来 - 系统功能架构图</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', '微软雅黑', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .summary {
+            margin: 20px 0 30px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 5px;
+            border-left: 4px solid #4d94ff;
+        }
+        .summary h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        .summary p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .summary ul {
+            padding-left: 20px;
+        }
+        .summary li {
+            margin-bottom: 5px;
+        }
+        .narration {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #fffaf0;
+            border-radius: 5px;
+            border-left: 4px solid #ffa500;
+            font-style: italic;
+            color: #333;
+        }
+        svg {
+            width: 100%;
+            height: auto;
+            overflow: visible;
+        }
+        .layer-title {
+            font-weight: bold;
+            font-size: 14px;
+            text-anchor: middle;
+        }
+        .main-module {
+            font-weight: bold;
+            font-size: 12px;
+            text-anchor: middle;
+        }
+        .sub-module {
+            font-size: 10px;
+            text-anchor: middle;
+        }
+        .layer-rect {
+            fill: #e6f2ff;
+            stroke: #99ccff;
+            stroke-width: 2;
+            rx: 5;
+            ry: 5;
+        }
+        .module-rect {
+            fill: #ffffff;
+            stroke: #4d94ff;
+            stroke-width: 1.5;
+            rx: 3;
+            ry: 3;
+        }
+        .sub-module-rect {
+            fill: #f2f8ff;
+            stroke: #80b3ff;
+            stroke-width: 1;
+            rx: 2;
+            ry: 2;
+        }
+        .connector {
+            stroke: #666;
+            stroke-width: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>文物活起来 - 系统功能架构图</h1>
+        
+        <div class="summary">
+            <h2>系统架构概况</h2>
+            <p><strong>整体概况：</strong>以AI驱动的文物识别、互动、创作的全流程体验平台</p>
+            <p><strong>分层概况：</strong></p>
+            <ul>
+                <li>1.用户界面层：多终端统一交互体验设计</li>
+                <li>2.业务功能层：文物识别、视频生成与社区互动核心</li>
+                <li>3.AI能力层：多模态AI技术支撑内容生成</li>
+                <li>4.数据层：文物知识与用户内容资源底座</li>
+            </ul>
+            <div class="narration">
+                "文物活起来"系统架构采用四层设计，从用户交互到数据底座形成完整闭环。通过AI技术赋能，实现文物识别、视频生成、智能问答、社区互动等核心功能，将静态文物转化为动态叙事体验，打造一个集识别、创作、分享、学习于一体的文博科技创新平台，让历史文物焕发当代生命力。
+            </div>
+        </div>
+        
+        <svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+            <!-- 标题 -->
+            <text x="500" y="30" text-anchor="middle" font-size="20" font-weight="bold">文物活起来系统功能架构</text>
+            
+            <!-- 第一层：用户界面层 -->
+            <rect x="50" y="60" width="900" height="120" class="layer-rect"></rect>
+            <text x="500" y="80" class="layer-title">用户界面层</text>
+            
+            <!-- 用户界面层模块 -->
+            <rect x="80" y="100" width="160" height="60" class="module-rect"></rect>
+            <text x="160" y="120" class="main-module">移动应用界面</text>
+            <text x="160" y="140" class="sub-module">iOS & Android 原生/跨平台</text>
+            
+            <rect x="280" y="100" width="160" height="60" class="module-rect"></rect>
+            <text x="360" y="120" class="main-module">用户身份认证</text>
+            <text x="360" y="140" class="sub-module">登录/注册/第三方授权</text>
+            
+            <rect x="480" y="100" width="160" height="60" class="module-rect"></rect>
+            <text x="560" y="120" class="main-module">内容展示组件</text>
+            <text x="560" y="140" class="sub-module">视频播放/文物卡片/社区内容</text>
+            
+            <rect x="680" y="100" width="160" height="60" class="module-rect"></rect>
+            <text x="760" y="120" class="main-module">用户引导交互</text>
+            <text x="760" y="140" class="sub-module">引导流程/教程/帮助中心</text>
+            
+            <!-- 第二层：业务功能层 -->
+            <rect x="50" y="200" width="900" height="360" class="layer-rect"></rect>
+            <text x="500" y="220" class="layer-title">业务功能层</text>
+            
+            <!-- 文物识别模块 -->
+            <rect x="80" y="240" width="200" height="30" class="module-rect"></rect>
+            <text x="180" y="260" class="main-module">文物智能识别</text>
+            
+            <rect x="90" y="280" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="130" y="295" class="sub-module">扫描识别</text>
+            
+            <rect x="190" y="280" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="230" y="295" class="sub-module">信息初览</text>
+            
+            <!-- AIGC故事视频生成模块 -->
+            <rect x="320" y="240" width="200" height="30" class="module-rect"></rect>
+            <text x="420" y="260" class="main-module">AIGC故事视频生成</text>
+            
+            <rect x="330" y="280" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="370" y="295" class="sub-module">选题引导</text>
+            
+            <rect x="430" y="280" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="470" y="295" class="sub-module">剧本生成</text>
+            
+            <rect x="330" y="315" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="370" y="330" class="sub-module">风格选择</text>
+            
+            <rect x="430" y="315" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="470" y="330" class="sub-module">角色选择</text>
+            
+            <rect x="330" y="350" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="370" y="365" class="sub-module">分镜生成</text>
+            
+            <rect x="430" y="350" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="470" y="365" class="sub-module">分镜编辑</text>
+            
+            <rect x="330" y="385" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="370" y="400" class="sub-module">背景音乐</text>
+            
+            <rect x="430" y="385" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="470" y="400" class="sub-module">旁白选择</text>
+            
+            <!-- 视频预览与发布模块 -->
+            <rect x="560" y="240" width="200" height="30" class="module-rect"></rect>
+            <text x="660" y="260" class="main-module">视频预览与发布</text>
+            
+            <rect x="570" y="280" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="610" y="295" class="sub-module">视频预览</text>
+            
+            <rect x="670" y="280" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="710" y="295" class="sub-module">本地保存</text>
+            
+            <rect x="570" y="315" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="610" y="330" class="sub-module">社交分享</text>
+            
+            <rect x="670" y="315" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="710" y="330" class="sub-module">作品管理</text>
+            
+            <!-- 交互式问答模块 -->
+            <rect x="80" y="430" width="200" height="30" class="module-rect"></rect>
+            <text x="180" y="450" class="main-module">交互式问答</text>
+            
+            <rect x="90" y="470" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="130" y="485" class="sub-module">文字问答</text>
+            
+            <rect x="190" y="470" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="230" y="485" class="sub-module">语音交互</text>
+            
+            <rect x="90" y="505" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="130" y="520" class="sub-module">问题推荐</text>
+            
+            <rect x="190" y="505" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="230" y="520" class="sub-module">对话历史</text>
+            
+            <!-- 文创互动社区模块 -->
+            <rect x="320" y="430" width="200" height="30" class="module-rect"></rect>
+            <text x="420" y="450" class="main-module">文创互动社区</text>
+            
+            <rect x="330" y="470" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="370" y="485" class="sub-module">内容发现</text>
+            
+            <rect x="430" y="470" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="470" y="485" class="sub-module">内容筛选</text>
+            
+            <rect x="330" y="505" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="370" y="520" class="sub-module">社交互动</text>
+            
+            <rect x="430" y="505" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="470" y="520" class="sub-module">虚拟展厅</text>
+            
+            <!-- 用户中心模块 -->
+            <rect x="560" y="430" width="200" height="30" class="module-rect"></rect>
+            <text x="660" y="450" class="main-module">用户中心</text>
+            
+            <rect x="570" y="470" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="610" y="485" class="sub-module">个人资料</text>
+            
+            <rect x="670" y="470" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="710" y="485" class="sub-module">作品管理</text>
+            
+            <rect x="570" y="505" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="610" y="520" class="sub-module">收藏功能</text>
+            
+            <rect x="670" y="505" width="80" height="25" class="sub-module-rect"></rect>
+            <text x="710" y="520" class="sub-module">积分/成就</text>
+            
+            <!-- 第三层：AI能力层 -->
+            <rect x="50" y="580" width="900" height="100" class="layer-rect"></rect>
+            <text x="500" y="600" class="layer-title">AI能力层</text>
+            
+            <rect x="80" y="620" width="160" height="40" class="module-rect"></rect>
+            <text x="160" y="640" class="main-module">计算机视觉</text>
+            <text x="160" y="655" class="sub-module">图像识别/文物分类</text>
+            
+            <rect x="280" y="620" width="160" height="40" class="module-rect"></rect>
+            <text x="360" y="640" class="main-module">大语言模型</text>
+            <text x="360" y="655" class="sub-module">问答/剧本/内容生成</text>
+            
+            <rect x="480" y="620" width="160" height="40" class="module-rect"></rect>
+            <text x="560" y="640" class="main-module">图像生成</text>
+            <text x="560" y="655" class="sub-module">场景复原/分镜生成</text>
+            
+            <rect x="680" y="620" width="160" height="40" class="module-rect"></rect>
+            <text x="760" y="640" class="main-module">视频生成</text>
+            <text x="760" y="655" class="sub-module">分镜合成/动画化</text>
+            
+            <!-- 第四层：数据层 -->
+            <rect x="50" y="700" width="900" height="80" class="layer-rect"></rect>
+            <text x="500" y="720" class="layer-title">数据层</text>
+            
+            <rect x="80" y="730" width="160" height="30" class="module-rect"></rect>
+            <text x="160" y="750" class="main-module">文物知识库</text>
+            
+            <rect x="280" y="730" width="160" height="30" class="module-rect"></rect>
+            <text x="360" y="750" class="main-module">用户数据库</text>
+            
+            <rect x="480" y="730" width="160" height="30" class="module-rect"></rect>
+            <text x="560" y="750" class="main-module">内容资源库</text>
+            
+            <rect x="680" y="730" width="160" height="30" class="module-rect"></rect>
+            <text x="760" y="750" class="main-module">日志与分析数据</text>
+            
+            <!-- 连接线 -->
+            <!-- 省略了连接线以保持图表清晰，可根据需要添加 -->
+        </svg>
+    </div>
+</body>
+</html> 

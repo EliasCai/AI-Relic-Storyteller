@@ -50,14 +50,13 @@ import { colors, spacing } from '@/constants/theme';
 const videoData = {
   artifactId: '1', // 文物ID，用于关联到具体文物
   title: '青花瓷龙纹碗的前世今生',
-  description: '我是明代永乐年间的青花瓷龙纹碗，出生于景德镇御窑厂...',
-  videoUrl: require('@/assets/videos/demo.mp4'), // 本地视频文件
-  author: '文博中心',
-  avatar: 'https://i.pravatar.cc/150?img=32',
+  description: '博物馆，纪念馆，动物园的深度爱好者🤗',
+  videoUrl: require('@/assets/videos/demo03.mp4'), // 本地视频文件
+  author: '喜羊看世界',
+  avatar: require('@/assets/images/avatar01.png'),
   followers: '2.6万粉丝',
   views: '52.7万',
   likes: 4658,
-  dislikes: 533,
   favorites: 4529,
   shares: 181,
   comments: 118,
@@ -110,7 +109,7 @@ export default function AIGCVideoScreen() {
   const [savedToGallery, setSavedToGallery] = useState(false);
   const [activeTab, setActiveTab] = useState('简介');
   const [localLikes, setLocalLikes] = useState(videoData.likes);
-  const [localDislikes, setLocalDislikes] = useState(videoData.dislikes);
+  const [localDislikes, setLocalDislikes] = useState(0);
   const [localFavorites, setLocalFavorites] = useState(videoData.favorites);
   const [expanded, setExpanded] = useState(false);
   
@@ -324,35 +323,30 @@ export default function AIGCVideoScreen() {
   
   const handleLike = () => {
     if (isLiked) {
-      setLocalLikes(prev => prev - 1);
+      setLocalLikes((prev: number) => prev - 1);
     } else {
-      setLocalLikes(prev => prev + 1);
+      setLocalLikes((prev: number) => prev + 1);
       if (isDisliked) {
         setIsDisliked(false);
-        setLocalDislikes(prev => prev - 1);
+        setLocalDislikes((prev: number) => prev - 1);
       }
     }
     setIsLiked(!isLiked);
   };
   
   const handleDislike = () => {
-    if (isDisliked) {
-      setLocalDislikes(prev => prev - 1);
-    } else {
-      setLocalDislikes(prev => prev + 1);
-      if (isLiked) {
-        setIsLiked(false);
-        setLocalLikes(prev => prev - 1);
-      }
-    }
     setIsDisliked(!isDisliked);
+    if (isLiked) {
+      setIsLiked(false);
+      setLocalLikes((prev: number) => prev - 1);
+    }
   };
   
   const handleFavorite = () => {
     if (isFavorited) {
-      setLocalFavorites(prev => prev - 1);
+      setLocalFavorites((prev: number) => prev - 1);
     } else {
-      setLocalFavorites(prev => prev + 1);
+      setLocalFavorites((prev: number) => prev + 1);
     }
     setIsFavorited(!isFavorited);
   };
@@ -549,21 +543,6 @@ export default function AIGCVideoScreen() {
             
             <TouchableOpacity 
               style={styles.actionButtonItem}
-              onPress={handleDislike}
-            >
-              <ThumbsUp 
-                size={24} 
-                style={{ transform: [{ rotateX: '180deg' }] }}
-                color={isDisliked ? colors.gray[900] : colors.gray[700]} 
-                fill={isDisliked ? colors.gray[900] : 'transparent'}
-              />
-              <Text variant="caption" color={colors.gray[700]}>
-                {localDislikes}
-              </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity 
-              style={styles.actionButtonItem}
               onPress={handleSharePress}
             >
               <Share2 size={24} color={colors.gray[700]} />
@@ -617,7 +596,7 @@ export default function AIGCVideoScreen() {
           <View style={styles.authorSection}>
             <View style={styles.authorInfo}>
               <Image 
-                source={{ uri: videoData.avatar }} 
+                source={videoData.avatar}
                 style={styles.avatar} 
               />
               <View style={styles.authorTextInfo}>
